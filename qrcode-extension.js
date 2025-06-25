@@ -23,18 +23,24 @@ class QRCodeExtension {
     const text = encodeURIComponent(args.TEXT);
     const imageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${text}`;
 
-    const asset = await Scratch.vm.runtime.storage.loadWebImage(imageUrl);
+    try {
+      const asset = await Scratch.vm.runtime.storage.loadWebImage(imageUrl);
 
-    const costume = {
-      name: 'QRコード',
-      asset: asset,
-      md5ext: asset.assetId + '.' + asset.dataFormat,
-      dataFormat: asset.dataFormat
-    };
+      const costume = {
+        name: 'QRコード',
+        asset: asset,
+        md5ext: asset.assetId + '.' + asset.dataFormat,
+        dataFormat: asset.dataFormat
+      };
 
-    const target = util.target;
-    target.sprite.costumes.push(costume);
-    target.setCostume(target.sprite.costumes.length - 1);
+      const target = util.target;
+
+      // コスチュームを追加して、それに切り替える
+      target.sprite.costumes.push(costume);
+      target.setCostume(target.sprite.costumes.length - 1);
+    } catch (error) {
+      console.error('QRコードの読み込みに失敗しました:', error);
+    }
   }
 }
 

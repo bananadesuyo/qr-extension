@@ -24,7 +24,7 @@ class QRCodeExtension {
     const imageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${text}`;
 
     try {
-      const asset = await Scratch.vm.runtime.storage.loadWebImage(imageUrl);
+      const asset = await util.runtime.storage.loadWebImage(imageUrl);
 
       const costume = {
         name: 'QRコード',
@@ -35,7 +35,6 @@ class QRCodeExtension {
 
       const target = util.target;
 
-      // コスチュームを追加して、それに切り替える
       target.sprite.costumes.push(costume);
       target.setCostume(target.sprite.costumes.length - 1);
     } catch (error) {

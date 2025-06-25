@@ -59,4 +59,3 @@ class QRCodeExtension {
 }
 
 Scratch.extensions.register(new QRCodeExtension());
-15:55 2025/06/25

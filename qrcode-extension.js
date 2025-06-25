@@ -24,7 +24,19 @@ class QRCodeExtension {
     const imageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${text}`;
 
     try {
-      const runtime = (util && util.runtime) || (window.vm && window.vm.runtime);
+      let runtime = null;
+
+      // 1. util.runtime があれば使う
+      if (util && util.runtime) {
+        runtime = util.runtime;
+      }
+
+      // 2. なければ少し待ってから window.vm.runtime を試す
+      if (!runtime && window.vm && window.vm.runtime) {
+        runtime = window.vm.runtime;
+      }
+
+      // 3. それでも取得できなければエラー
       if (!runtime) {
         console.error('❌ Runtimeが取得できませんでした');
         return;
